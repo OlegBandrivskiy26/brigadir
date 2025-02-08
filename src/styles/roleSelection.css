@@ -1,0 +1,109 @@
+.role__selection{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #E9E9E9;
+}
+.role__selection__content__container{
+    width: 100%;
+    height: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: column;
+}
+.role__selection__title{
+    font-size: 38px;
+    font-weight: 700;
+    color: #1E293B;
+}
+
+.role__selection__container{
+    width: 75%;
+    height: 40%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.role__selection__input{
+    width: 488px;
+    height: 291px;
+    background-color: #fff;
+    border-radius: 28px;
+    box-shadow: inset 2px 2px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.role__selection__input__container{
+    width: 80%; 
+    height: 20%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+.client__img{
+    background-image: url(../img/client.svg);
+    background-size: cover;
+    width: 50px;
+    height: 50px;
+}
+.role__selection__input__container input{
+    width: 50px;
+    height: 50px;
+}
+.role__selection__input__container input[type="radio"]:checked {
+    background-color: #2563EB;
+}
+.worker__img{
+    background-image: url(../img/worker.svg);
+    background-size: cover;
+    width: 50px;
+    height: 50px;
+}
+.role__selection__paragraph{
+    width: 90%;
+    height: 60%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+.role__selection__paragraph p{
+    margin-top: 40px;
+    font-size: 32px;
+    font-weight: 900;
+    text-align: center;
+}
+.role__selection__btn__grp{
+    width: 100%;
+    height: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: column;
+}
+.btn__submit{
+    width: 388px;
+    height: 82px;
+    border-radius: 28px;
+    background-color: #2563EB;
+    border: none;
+    font-size: 26px;
+    font-weight: 900;
+    color: #fff;
+    cursor: pointer;
+}
+.role__selection__link{
+    font-size: 18px;
+    font-weight: 500;
+    color: #1E293B;
+    text-decoration: none;
+}
+.role__selection__link span{
+    color: #2563EB;
+    text-decoration: underline;
+    font-weight: 700;
+}
