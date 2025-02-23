@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b74c00fb-8ff7-4c6e-8e76-cb4c554e2a95" name="Changes" comment="" />
+    <list default="true" id="b74c00fb-8ff7-4c6e-8e76-cb4c554e2a95" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/brigadir.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/brigadir.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/API/serializer.py" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/API/serializer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/DB_models/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/DB_models/models.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -32,7 +38,7 @@
   "keyToString": {
     "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "Fix-DB-and-endpoints",
     "last_opened_file_path": "C:/Users/Evhenii/brigadir",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -225,7 +231,8 @@
       <updated>1739449325802</updated>
       <workItem from="1739449326994" duration="3794000" />
       <workItem from="1739546443832" duration="65000" />
-      <workItem from="1739546510793" duration="472000" />
+      <workItem from="1739546510793" duration="1313000" />
+      <workItem from="1739893140364" duration="805000" />
     </task>
     <servers />
   </component>

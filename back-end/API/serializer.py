@@ -1,25 +1,26 @@
 from rest_framework import serializers
 from DB_models.models import User, Talent, Contract, Project
 
-
 class UserRegistrationSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['username', 'password', 'first_name', 'last_name', 'age', 'phone_number']
+        fields = ['password', 'first_name', 'last_name', 'age', 'phone_number']
         extra_kwargs = {
-            'password': {'write_only': True}  # Пароль приховуємо
+            'password': {'write_only': True},  # Пароль приховуємо
+            'phone_number': {'required': False, 'allow_null': True}
         }
 
     def create(self, validated_data):
-        # Створення користувача з хешованим паролем
+        validated_data.pop('username', None)  # Видаляємо username, якщо він є
         user = User.objects.create_user(**validated_data)
         return user
+
 
 
 class UserDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'first_name', 'last_name', 'age', 'phone_number', 'is_seller']
+        fields = ['user_id', 'first_name', 'last_name', 'age', 'phone_number', 'is_seller']
 
 
 class TalentSerializer(serializers.ModelSerializer):
