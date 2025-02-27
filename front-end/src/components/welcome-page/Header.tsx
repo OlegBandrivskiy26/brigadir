@@ -18,7 +18,7 @@ const Header = () => {
             </div>
             <div className="btn__grp__header">
                 <NavLink to={'/log-in'}><button className='header__btn'>Log In</button></NavLink>
-                <NavLink to={'/role-selection'}><button className='header__btn blue__btn'>Sign Up</button></NavLink>
+                <NavLink to={'/sign-up'}><button className='header__btn blue__btn'>Sign Up</button></NavLink>
             </div>
         </div>
     </header>
