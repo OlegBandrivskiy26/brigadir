@@ -4,17 +4,16 @@ from DB_models.models import User, Talent, Contract, Project
 class UserRegistrationSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['password', 'first_name', 'last_name', 'age', 'phone_number']
+        fields = ['email', 'password', 'first_name', 'last_name', 'age', 'phone_number']
         extra_kwargs = {
-            'password': {'write_only': True},  # Пароль приховуємо
+            'password': {'write_only': True},
             'phone_number': {'required': False, 'allow_null': True}
         }
 
     def create(self, validated_data):
-        validated_data.pop('username', None)  # Видаляємо username, якщо він є
+        validated_data.pop('username', None)
         user = User.objects.create_user(**validated_data)
         return user
-
 
 
 class UserDetailSerializer(serializers.ModelSerializer):
