@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from DB_models.models import User, Talent, Contract, Project
+from django.contrib.auth import authenticate
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
     class Meta:
@@ -42,3 +43,19 @@ class ContractSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contract
         fields = '__all__'
+
+
+class UserLoginSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    password = serializers.CharField(write_only=True)
+
+    def validate(self, data):
+        email = data.get("email")
+        password = data.get("password")
+        user = authenticate(email=email, password=password)
+
+        if not user:
+            raise serializers.ValidationError("Неправильна пошта або пароль")
+
+        data["user"] = user
+        return data
