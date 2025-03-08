@@ -4,6 +4,7 @@ import { RegisterData } from '../../services/type';
 
 const SignUp: React.FC = () => {
   const [formData, setFormData] = useState<RegisterData>({
+    email: '',
     password: '',
     password_confirmation: '',
     first_name: '',
@@ -81,6 +82,18 @@ const SignUp: React.FC = () => {
             name="last_name"
             label="Прізвище"
             value={formData.last_name}
+            onChange={handleChange}
+            variant="outlined"
+            sx={{ backgroundColor: '#fff', borderRadius: 1 }}
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="email"
+            name="email"
+            label="Email"
+            value={formData.email}
             onChange={handleChange}
             variant="outlined"
             sx={{ backgroundColor: '#fff', borderRadius: 1 }}
