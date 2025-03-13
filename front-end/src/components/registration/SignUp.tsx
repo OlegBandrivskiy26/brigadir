@@ -131,7 +131,6 @@ const SignUp: React.FC = () => {
             id="age"
             name="age"
             label="Вік"
-            type="number"
             value={formData.age}
             onChange={handleChange}
             variant="outlined"
