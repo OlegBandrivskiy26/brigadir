@@ -81,6 +81,9 @@ REST_FRAMEWORK = {
     ],
 }
 
+AUTH_USER_MODEL = 'DB_models.User'
+
+
 CORS_ALLOWED_ORIGINS = [ "http://localhost:3000", ]
 
 WSGI_APPLICATION = 'djangoProject.wsgi.application'
