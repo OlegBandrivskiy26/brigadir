@@ -13,6 +13,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         validated_data.pop('username', None)
+        validated_data['username'] = validated_data['email']
         user = User.objects.create_user(**validated_data)
         return user
 
@@ -53,15 +54,11 @@ class UserLoginSerializer(serializers.Serializer):
         email = data.get("email")
         password = data.get("password")
 
-        try:
-            user_obj = User.objects.get(email=email)
-        except User.DoesNotExist:
-            raise serializers.ValidationError("Неправильна пошта або пароль")
-
-        user = authenticate(username=user_obj.username, password=password)
+        user = authenticate(username=email, password=password)
 
         if not user or not user.is_active:
             raise serializers.ValidationError("Неправильна пошта або пароль")
 
         data["user"] = user
         return data
+
