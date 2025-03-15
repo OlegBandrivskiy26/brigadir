@@ -11,8 +11,8 @@ class CustomUserAdmin(UserAdmin):
     ordering = ["user_id"]
 
     fieldsets = (
-        (None, {"fields": ("user_id", "password")}),
-        ("Personal info", {"fields": ("first_name", "last_name", "age", "phone_number")}),
+        (None, {"fields": ("user_id", "password", "email")}),
+        ("Personal info", {"fields": ("first_name", "last_name", "age", "phone_number", "email")}),
         ("Permissions", {"fields": ("is_active", "is_staff", "is_superuser", "groups", "user_permissions")}),
         ("Important dates", {"fields": ("last_login", "date_joined")}),
     )
