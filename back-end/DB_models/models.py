@@ -6,7 +6,12 @@ from django.contrib.auth.models import BaseUserManager
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, first_name, last_name, age, password=None, **extra_fields):
         if not email:
-            raise ValueError("Email обов'язковий")
+            raise ValueError('Користувач повинен мати email')
+        email = self.normalize_email(email)
+        user = self.model(email=email, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+
         if not first_name or not last_name:
             raise ValueError("Ім'я та прізвище обов'язкові")
 
