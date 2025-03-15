@@ -52,9 +52,15 @@ class UserLoginSerializer(serializers.Serializer):
     def validate(self, data):
         email = data.get("email")
         password = data.get("password")
-        user = authenticate(email=email, password=password)
 
-        if not user:
+        try:
+            user_obj = User.objects.get(email=email)
+        except User.DoesNotExist:
+            raise serializers.ValidationError("Неправильна пошта або пароль")
+
+        user = authenticate(username=user_obj.username, password=password)
+
+        if not user or not user.is_active:
             raise serializers.ValidationError("Неправильна пошта або пароль")
 
         data["user"] = user

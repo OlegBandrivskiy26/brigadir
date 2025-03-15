@@ -9,7 +9,10 @@ from .serializer import UserRegistrationSerializer, UserDetailSerializer, Talent
     ContractSerializer, UserLoginSerializer
 from rest_framework.permissions import AllowAny
 from .authentication import CsrfExemptSessionAuthentication
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
 from rest_framework_simplejwt.tokens import RefreshToken
+import json
 
 # Create your views here.
 class UserRegistrationView(APIView):
@@ -81,6 +84,26 @@ def get_project(request, project_id):
         return Response(serializer.data)
     except Project.DoesNotExist:
         return Response({"error": "Project not found"}, status=status.HTTP_404_NOT_FOUND)
+
+
+@csrf_exempt
+def jwt_login_view(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+        except json.JSONDecodeError:
+            return JsonResponse({"error": "Invalid JSON"}, status=400)
+
+        serializer = UserLoginSerializer(data=data)
+        if serializer.is_valid():
+            user = serializer.validated_data["user"]
+            refresh = RefreshToken.for_user(user)
+            access_token = str(refresh.access_token)
+            return JsonResponse({"token": access_token}, status=200)
+
+        return JsonResponse(serializer.errors, status=400)
+
+    return JsonResponse({"detail": "Method not allowed"}, status=405)
 
 class UserLoginView(APIView):
     authentication_classes = [CsrfExemptSessionAuthentication]
