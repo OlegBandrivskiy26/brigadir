@@ -8,7 +8,8 @@ from rest_framework.authtoken.models import Token
 from DB_models.models import Talent, Contract, Project
 from .serializer import UserRegistrationSerializer, UserDetailSerializer, TalentSerializer, ProjectSerializer, \
     ContractSerializer, UserLoginSerializer
-
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 
 # Create your views here.
 class UserRegistrationView(APIView):
@@ -81,6 +82,7 @@ def get_project(request, project_id):
     except Project.DoesNotExist:
         return Response({"error": "Project not found"}, status=status.HTTP_404_NOT_FOUND)
 
+@method_decorator(csrf_exempt, name='dispatch')
 class UserLoginView(APIView):
     def post(self, request):
         serializer = UserLoginSerializer(data=request.data)
