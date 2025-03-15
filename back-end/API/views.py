@@ -4,12 +4,12 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework_simplejwt.tokens import RefreshToken
 from DB_models.models import Talent, Contract, Project
 from .serializer import UserRegistrationSerializer, UserDetailSerializer, TalentSerializer, ProjectSerializer, \
     ContractSerializer, UserLoginSerializer
-from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
+from rest_framework.permissions import AllowAny
+from .authentication import CsrfExemptSessionAuthentication
+from rest_framework_simplejwt.tokens import RefreshToken
 
 # Create your views here.
 class UserRegistrationView(APIView):
@@ -82,20 +82,16 @@ def get_project(request, project_id):
     except Project.DoesNotExist:
         return Response({"error": "Project not found"}, status=status.HTTP_404_NOT_FOUND)
 
-@method_decorator(csrf_exempt, name='dispatch')
 class UserLoginView(APIView):
+    authentication_classes = [CsrfExemptSessionAuthentication]
+    permission_classes = [AllowAny]
+
     def post(self, request):
         serializer = UserLoginSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.validated_data["user"]
-
-            # Генеруємо JWT access та refresh токени
             refresh = RefreshToken.for_user(user)
             access_token = str(refresh.access_token)
-
-            # Повертаємо тільки access токен як "token"
-            return Response({
-                "token": access_token
-            }, status=status.HTTP_200_OK)
+            return Response({"token": access_token}, status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
