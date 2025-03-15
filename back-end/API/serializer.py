@@ -45,7 +45,6 @@ class ContractSerializer(serializers.ModelSerializer):
         model = Contract
         fields = '__all__'
 
-
 class UserLoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField(write_only=True)
@@ -54,11 +53,11 @@ class UserLoginSerializer(serializers.Serializer):
         email = data.get("email")
         password = data.get("password")
 
-        user = authenticate(username=email, password=password)
+        # Аутентифікація за email замість username
+        user = authenticate(email=email, password=password)
 
         if not user or not user.is_active:
             raise serializers.ValidationError("Неправильна пошта або пароль")
 
         data["user"] = user
         return data
-
