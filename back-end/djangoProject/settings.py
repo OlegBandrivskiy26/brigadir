@@ -25,8 +25,11 @@ SECRET_KEY = 'django-insecure-fcbh==1r=9kk4#tca!oz1vou*l+@jl#as*xx0z6%u236_=n4i-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['http://localhost:3000/', '127.0.0.1', '.koyeb.app', 'brigadir.onrender.com']
+ALLOWED_HOSTS = ['http://localhost:3000', '127.0.0.1', '.koyeb.app', 'brigadir.onrender.com']
 
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:3000',
+]
 
 # Application definition
 
