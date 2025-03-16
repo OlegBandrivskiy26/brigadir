@@ -4,7 +4,7 @@ from rest_framework_simplejwt.views import TokenRefreshView
 from .authentication import CustomTokenObtainPairView
 from .views import (
     UserRegistrationView, add_talent, get_talent_by_id, create_project,
-    create_contract, get_contract, get_project, UserLoginView, jwt_login_view
+    create_contract, get_contract, get_project, jwt_login_view
 )
 
 urlpatterns = [

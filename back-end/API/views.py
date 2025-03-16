@@ -8,7 +8,6 @@ from DB_models.models import Talent, Contract, Project
 from .serializer import UserRegistrationSerializer, UserDetailSerializer, TalentSerializer, ProjectSerializer, \
     ContractSerializer, UserLoginSerializer
 from rest_framework.permissions import AllowAny
-from .authentication import CsrfExemptSessionAuthentication
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -104,17 +103,3 @@ def jwt_login_view(request):
         return JsonResponse(serializer.errors, status=400)
 
     return JsonResponse({"detail": "Method not allowed"}, status=405)
-
-class UserLoginView(APIView):
-    authentication_classes = [CsrfExemptSessionAuthentication]
-    permission_classes = [AllowAny]
-
-    def post(self, request):
-        serializer = UserLoginSerializer(data=request.data)
-        if serializer.is_valid():
-            user = serializer.validated_data["user"]
-            refresh = RefreshToken.for_user(user)
-            access_token = str(refresh.access_token)
-            return Response({"token": access_token}, status=status.HTTP_200_OK)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
