@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework_simplejwt',
     "rest_framework.authtoken",
     'DB_models',
     'API',
@@ -79,9 +80,9 @@ TEMPLATES = [
 ]
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
+    'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ],
+    ),
 }
 
 CORS_ALLOWED_ORIGINS = [ "http://localhost:3000", ]
@@ -122,6 +123,8 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'djangoProject.backends.EmailBackend',
 ]
+
+AUTH_USER_MODEL = 'djangoProject.User'
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
