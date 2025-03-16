@@ -124,7 +124,7 @@ AUTHENTICATION_BACKENDS = [
     'djangoProject.backends.EmailBackend',
 ]
 
-AUTH_USER_MODEL = 'djangoProject.User'
+AUTH_USER_MODEL = 'DB_models.User'
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
