@@ -12,8 +12,10 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         }
 
     def create(self, validated_data):
+        # Видаляємо username, якщо випадково надійшов
         validated_data.pop('username', None)
-        validated_data['username'] = validated_data['email']
+
+        # Створюємо користувача
         user = User.objects.create_user(**validated_data)
         return user
 
