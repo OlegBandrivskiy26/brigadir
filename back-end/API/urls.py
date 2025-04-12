@@ -4,7 +4,7 @@ from rest_framework_simplejwt.views import TokenRefreshView
 from .authentication import CustomTokenObtainPairView
 from .views import (
     UserRegistrationView, add_talent, get_talent_by_id, create_project,
-    create_contract, get_contract, get_project, jwt_login_view
+    create_contract, get_contract, get_project, UserDetailView
 )
 
 urlpatterns = [
@@ -17,4 +17,6 @@ urlpatterns = [
     path('project/<int:project_id>/', get_project, name='get_project'),
     path('login/', CustomTokenObtainPairView.as_view(), name='custom_token_obtain_pair'),
     path('api/login/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+
+    path('api/me/', UserDetailView.as_view(), name='user_detail'),
 ]
