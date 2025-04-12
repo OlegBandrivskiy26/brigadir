@@ -4,13 +4,9 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from DB_models.models import Talent, Contract, Project
+from DB_models.models import Talent, Contract, Project, Talent_dsc
 from .serializer import UserRegistrationSerializer, UserDetailSerializer, TalentSerializer, ProjectSerializer, \
-    ContractSerializer, UserLoginSerializer
-from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse
-from rest_framework_simplejwt.tokens import RefreshToken
-import json
+    ContractSerializer
 
 # Create your views here.
 class UserRegistrationView(APIView):
@@ -34,19 +30,36 @@ class UserDetailView(APIView):
 def add_talent(request):
     serializer = TalentSerializer(data=request.data)
     if serializer.is_valid():
-        serializer.save()
-        # Update is_seller to True
-        user = serializer.validated_data['user']
-        user.is_seller = True
-        user.save()
+        # Save Talent
+        talent = serializer.save()
+
+        # Update is_seller to True for the related user
+        user = talent.user
+        if user:
+            user.is_seller = True
+            user.save()
+
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 @api_view(['GET'])
 def get_talent_by_id(request, talent_dsc_id):
     talents = Talent.objects.filter(talent_dsc_id=talent_dsc_id)
-    serializer = TalentSerializer(talents, many=True)
-    return Response(serializer.data)
+
+    # If you only expect one result, you can return the first one
+    if talents.exists():
+        serializer = TalentSerializer(talents, many=True)
+        return Response(serializer.data)
+    else:
+        return Response({"detail": "Talent not found."}, status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
+def get_talent_dsc_list(request):
+    talent_dscs = Talent_dsc.objects.all().order_by('prof')  # Example of sorting by profession name
+    data = [{"id": t.id, "prof": t.prof} for t in talent_dscs]
+    return Response(data)
+
 
 @api_view(['POST'])
 def create_project(request):

@@ -25,16 +25,17 @@ class CustomUserAdmin(UserAdmin):
     )
 
 # Реєструємо інші моделі
+@admin.register(Talent)
+class TalentAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'position', 'location', 'talent_dsc')
+    search_fields = ('user__user_id', 'position', 'location', 'talent_dsc__prof')
+    list_filter = ('position', 'location', 'talent_dsc')
+
 @admin.register(Talent_dsc)
 class TalentDscAdmin(admin.ModelAdmin):
     list_display = ('id', 'prof')
     search_fields = ('prof',)
 
-@admin.register(Talent)
-class TalentAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'position', 'location', 'talent_dsc')
-    search_fields = ('user__user_id', 'position', 'location', 'talent_dsc__prof')
-    list_filter = ('position', 'location')
 
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):

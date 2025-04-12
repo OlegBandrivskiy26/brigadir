@@ -1,10 +1,11 @@
 from django.urls import path
 from rest_framework_simplejwt.views import TokenRefreshView
 
+from DB_models.models import Talent_dsc
 from .authentication import CustomTokenObtainPairView
 from .views import (
     UserRegistrationView, add_talent, get_talent_by_id, create_project,
-    create_contract, get_contract, get_project, UserDetailView
+    create_contract, get_contract, get_project, UserDetailView, get_talent_dsc_list
 )
 
 urlpatterns = [
@@ -17,6 +18,6 @@ urlpatterns = [
     path('project/<int:project_id>/', get_project, name='get_project'),
     path('login/', CustomTokenObtainPairView.as_view(), name='custom_token_obtain_pair'),
     path('login/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-
+    path('talent_dsc/', get_talent_dsc_list, name='talent_dsc'),
     path('me/', UserDetailView.as_view(), name='user_detail'),
 ]

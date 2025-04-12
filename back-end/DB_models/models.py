@@ -61,7 +61,10 @@ class User(AbstractUser):
 
 
 class Talent_dsc(models.Model):
-    prof = models.CharField(max_length=100)
+    prof = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return self.prof
 
 class Talent(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -69,6 +72,10 @@ class Talent(models.Model):
     description = models.TextField()
     location = models.CharField(max_length=50)
     talent_dsc = models.ForeignKey(Talent_dsc, on_delete=models.PROTECT)
+
+    def __str__(self):
+        return f"{self.position} ({self.talent_dsc.prof})"
+
 
 class Project(models.Model):
     title = models.CharField(max_length=100)
@@ -81,10 +88,11 @@ class Project(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 class Contract(models.Model):
-    user_id = models.OneToOneField(User, on_delete=models.CASCADE)
-    talent_id = models.OneToOneField(Talent, on_delete=models.CASCADE)
-    project_id = models.OneToOneField(Project, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    talent_id = models.ForeignKey(Talent, on_delete=models.CASCADE)
+    project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=10, decimal_places=2)
+
 
 
 
