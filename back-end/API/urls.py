@@ -16,7 +16,7 @@ urlpatterns = [
     path('contract/<int:contract_id>/', get_contract, name='get_contract'),
     path('project/<int:project_id>/', get_project, name='get_project'),
     path('login/', CustomTokenObtainPairView.as_view(), name='custom_token_obtain_pair'),
-    path('api/login/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('login/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
-    path('api/me/', UserDetailView.as_view(), name='user_detail'),
+    path('me/', UserDetailView.as_view(), name='user_detail'),
 ]
