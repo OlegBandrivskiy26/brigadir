@@ -30,9 +30,8 @@ class UserDetailView(APIView):
 @permission_classes([IsAuthenticated])
 def add_talent(request):
     data = request.data.copy()
-    data['user'] = request.user.id  # автоматично встановлюємо користувача
 
-    serializer = TalentSerializer(data=data)
+    serializer = TalentSerializer(data=request.data, context={'request': request})
     if serializer.is_valid():
         talent = serializer.save()
 
@@ -64,11 +63,14 @@ def get_talent_dsc_list(request):
 
 @api_view(['POST'])
 def create_project(request):
-    serializer = ProjectSerializer(data=request.data)
+    data = request.data.copy()
+    data['user_id'] = request.user.id  # якщо потрібен автор
+    serializer = ProjectSerializer(data=data)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 @api_view(['POST'])
 def create_contract(request):
@@ -96,3 +98,9 @@ def get_project(request, project_id):
         return Response(serializer.data)
     except Project.DoesNotExist:
         return Response({"error": "Project not found"}, status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
+def get_projects(request):
+    projects = Project.objects.all()
+    serializer = ProjectSerializer(projects, many=True)
+    return Response(serializer.data)

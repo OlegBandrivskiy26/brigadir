@@ -1,14 +1,13 @@
 from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.db import models
-from django.core.validators import MaxValueValidator
 from django.contrib.auth.models import BaseUserManager
+
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, first_name, last_name, age, password=None, **extra_fields):
         if not email:
             raise ValueError('Користувач повинен мати email')
         email = self.normalize_email(email)
-
         if not first_name or not last_name:
             raise ValueError("Ім'я та прізвище обов'язкові")
 
@@ -32,13 +31,13 @@ class CustomUserManager(BaseUserManager):
 class User(AbstractUser):
     username = None
     first_name = models.CharField(max_length=50)
-    email = models.EmailField(unique=True)
     last_name = models.CharField(max_length=50)
+    email = models.EmailField(unique=True)
     age = models.IntegerField(default=0)
     phone_number = models.CharField(max_length=15, blank=True, null=True)
     is_seller = models.BooleanField(default=False)
 
-    user_id = models.CharField(max_length=100, unique=True)
+    user_id = models.CharField(max_length=100, unique=True, blank=True, null=True)
 
     groups = models.ManyToManyField(Group, related_name="custom_user_groups", blank=True)
     user_permissions = models.ManyToManyField(
@@ -51,13 +50,14 @@ class User(AbstractUser):
     objects = CustomUserManager()
 
     def save(self, *args, **kwargs):
-        if not self.user_id:
-            super().save(*args, **kwargs)  # Перше збереження для створення `pk`
-            self.user_id = f"{self.first_name.lower()}_{self.last_name.lower()}_{self.pk}"
+        creating = self.pk is None
         super().save(*args, **kwargs)
+        if creating and not self.user_id:
+            self.user_id = f"{self.first_name.lower()}_{self.last_name.lower()}_{self.pk}"
+            super().save(update_fields=["user_id"])
 
     def __str__(self):
-        return self.user_id
+        return f"{self.first_name} {self.last_name} (ID: {self.user_id})"
 
 
 class Talent_dsc(models.Model):
@@ -65,6 +65,7 @@ class Talent_dsc(models.Model):
 
     def __str__(self):
         return self.prof
+
 
 class Talent(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -78,27 +79,24 @@ class Talent(models.Model):
 
 
 class Project(models.Model):
+    user = models.ForeignKey(User, on_delete=models.PROTECT)  # замість user_id
     title = models.CharField(max_length=100)
     description = models.TextField()
     start_date = models.DateField()
     end_date = models.DateField()
     status = models.BooleanField(default=False)
-    user_id = models.ForeignKey(User, on_delete=models.PROTECT)
     location = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return self.title
+
+
 class Contract(models.Model):
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    talent_id = models.ForeignKey(Talent, on_delete=models.CASCADE)
-    project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    talent = models.ForeignKey(Talent, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=10, decimal_places=2)
 
-
-
-
-
-
-
-
-
-
+    def __str__(self):
+        return f"{self.project.title} — {self.talent.position} — ${self.price}"

@@ -69,3 +69,13 @@ class UserLoginSerializer(serializers.Serializer):
 
         data["user"] = user
         return data
+
+class AllProjectSerializer(serializers.ModelSerializer):
+    user_email = serializers.EmailField(source='user.email', read_only=True)
+
+    class Meta:
+        model = Project
+        fields = [
+            'id', 'title', 'description', 'start_date', 'end_date',
+            'status', 'location', 'created_at', 'user_email'
+        ]
