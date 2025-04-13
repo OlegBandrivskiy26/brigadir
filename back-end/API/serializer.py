@@ -30,6 +30,12 @@ class TalentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Talent
         fields = ['user', 'position', 'description', 'location', 'talent_dsc']
+        read_only_fields = ['user']  # або extra_kwargs
+
+    def create(self, validated_data):
+        validated_data['user'] = self.context['request'].user
+        return super().create(validated_data)
+
 
 class UpdateSellerStatusSerializer(serializers.ModelSerializer):
     class Meta:
