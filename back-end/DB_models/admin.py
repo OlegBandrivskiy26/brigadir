@@ -36,12 +36,12 @@ class TalentDscAdmin(admin.ModelAdmin):
 
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'start_date', 'end_date', 'status', 'user_id', 'location', 'created_at')
-    search_fields = ('title', 'location', 'user_id__email')
+    list_display = ('id', 'title', 'start_date', 'end_date', 'status', 'user', 'location', 'created_at')
+    search_fields = ('title', 'location', 'user__email')
     list_filter = ('status', 'location', 'start_date', 'end_date')
 
 @admin.register(Contract)
 class ContractAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user_id', 'talent_id', 'project_id', 'price')
-    search_fields = ('user_id__email', 'talent_id__position', 'project_id__title')
+    list_display = ('id', 'user', 'talent', 'project', 'price')
+    search_fields = ('user__email', 'talent__position', 'project__title')
     list_filter = ('price',)
