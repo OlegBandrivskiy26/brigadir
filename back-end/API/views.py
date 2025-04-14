@@ -62,9 +62,10 @@ def get_talent_dsc_list(request):
 
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])  # Важливо!
 def create_project(request):
     data = request.data.copy()
-    data['user_id'] = request.user.id  # якщо потрібен автор
+    data['user'] = request.user.username  # <-- Автоматично з JWT
     serializer = ProjectSerializer(data=data)
     if serializer.is_valid():
         serializer.save()
@@ -73,8 +74,11 @@ def create_project(request):
 
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])  # Важливо!
 def create_contract(request):
-    serializer = ContractSerializer(data=request.data)
+    data = request.data.copy()
+    data['user'] = request.user.username  # <-- Автоматично з JWT
+    serializer = ContractSerializer(data=data)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)

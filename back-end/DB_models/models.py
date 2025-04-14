@@ -79,7 +79,7 @@ class Talent(models.Model):
 
 
 class Project(models.Model):
-    user = models.ForeignKey(User, on_delete=models.PROTECT)  # замість user_id
+    user = models.CharField(max_length=100)  # Було ForeignKey
     title = models.CharField(max_length=100)
     description = models.TextField()
     start_date = models.DateField()
@@ -93,7 +93,7 @@ class Project(models.Model):
 
 
 class Contract(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.CharField(max_length=100)  # Було ForeignKey
     talent = models.ForeignKey(Talent, on_delete=models.CASCADE)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=10, decimal_places=2)
